@@ -48,4 +48,14 @@ ADD caffe-ld-so.conf /etc/ld.so.conf.d/
 # Run ldconfig again (not sure if needed)
 RUN ldconfig
 
+RUN sudo apt-get install -y python-software-properties software-properties-common
+RUN sudo add-apt-repository ppa:mc3man/trusty-media
+RUN sudo apt-get update
+RUN sudo apt-get -y dist-upgrade
+RUN sudo apt-get install -y ffmpeg
 
+ADD deepdreamer.sh ./
+ADD 1_movie2frames.sh ./
+ADD 2_dreaming_time.py ./
+ADD 3_frames2movie.sh ./
+ADD short-charlie-brown.mp4 ./
