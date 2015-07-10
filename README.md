@@ -1,81 +1,80 @@
-# DeepDreamVideo
-Implementing **#deepdream** on video
+# deepdreamers
+**a collective deepdream**, or, The Over-Ambitious Attempt to Experience Deepdream Film, Created Based on Your Current Mental State, With Other Humans
 
-**Creative Request**
+\#deepdream video, watched in a group, where the #deepdream is affected in realtime by participants' mental state (as measured by brain wave sensors).
 
-It would be very helpful for other deepdream researchers, if you could **include the used parameters in the description of your youtube videos**. You can find the parameters in the image filenames.
+Video processing based on [graphific/DeepDreamVideo](https://github.com/graphific/DeepDreamVideo). Docker image based on [ryankennedyio/deep-dream-generator](https://github.com/ryankennedyio/deep-dream-generator).
 
-Included experiment: Deep Dreaming Fear & Loathing in Las Vegas: the Great Fan Francisco Acid Wave
+**Creative Request from [graphific](https://github.com/graphific)**
 
-The results can be seen on youtube: https://www.youtube.com/watch?v=oyxSerkkP4o
+> It would be very helpful for other deepdream researchers, if you could **include the used parameters in the description of your youtube videos**. You can find the parameters in the image filenames.
 
-Mp4 not yet destroyed by youtube compression also at [mega.nz](https://mega.nz/#!KldUTKKD!38qj6WtEOE4pno90dAW98gkNK2O3tvz6ZwKTxpHJWFc) together with [original video file](https://mega.nz/#!X9MWWDTQ!lbC7C5B4incMkLGVM00qwI4NP-ifi2KcqsmfsdIm_E0).
-
-All single processed + unprocessed frames are also at [github](https://github.com/graphific/Fear-and-Loathing-experiment)
+### "#deepdream video" 
+(by [graphific](https://github.com/graphific): Deep Dreaming Fear & Loathing in Las Vegas: the Great Fan Francisco Acid Wave)
 
 ![deepdreamanim1](http://media.giphy.com/media/l41lRx92QqsIXy5MI/giphy.gif "deep dream animation 1")
 ![deepdreamanim2](http://media.giphy.com/media/l41lSzjTsGJcIzpKg/giphy.gif "deep dream animation 2")
 
-Advise also at https://github.com/graphific/DeepDreamVideo/wiki
+### "watched in a group"
+(by [michelar]/[iStock]/Thinkstock from https://www.pacsafe.com/blog/if-you-ever-have-to-chaperone-a-trip-scare-them-with-these-movies/)
 
-##INSTALL Dependencies
+![](http://i.imgur.com/aygaWLF.jpg "watched in a group")
 
-A good overview (constantly being updated) on which software libraries to install & list of web resources/howto is at reddit: https://www.reddit.com/r/deepdream/comments/3cawxb/what_are_deepdream_images_how_do_i_make_my_own/
+### "affected in realtime by participants' mental state"
+(by [Juanix Land aka Overstruck](http://overstruck.com/how-to-customize-googles-deepdream/): How to customize Google's Deep Dream)
 
+Mental State 0:
 
-##Usage:
+![](http://i.imgur.com/aE0hNWK.jpg "Mental State 0")
 
-Extract 25 frames a second from the source movie
+Mental State 1:
 
-`./1_movie2frames.sh ffmpeg [movie.mp4] [directory]`
+![](http://i.imgur.com/MHC3T2b.jpg "Mental State 1")
 
-or
+Mental State 2:
 
-`./1_movie2frames.sh avconf [movie.mp4] [directory]`
+![](http://i.imgur.com/HgGXDy0.jpg "Mental State 2")
 
-Let a pretrained deep neural network dream on it frames, one by one, taking each new frame and adding 0-50% of the old frame into it for continuity of the hallucinated artifacts, and go drink your caffe
+Mental State 3:
 
-gpu:
+![](http://i.imgur.com/EruFjNy.jpg "Mental State 3")
 
-`python 2_dreaming_time.py -i frames -o processed --gpu 0`
+## Roadmap
 
-cpu:
+Technical
+- [ ] create a short deepdream video (2s) inside a docker image on a development machine
+- [ ] create one on a raspberry pi
+- [ ] create a medium-length deepdream video (10min)
+- [ ] write mock brainwave input, and feed that into the deepdream as parameters (jitter, octaves, # of iterations)
+- [ ] collect real brainwave input, and feed that into the deepdream
+- [ ] get deepdream video processing performance to at least 1s of video per 10s processing time
+- [ ] allow switching back and forth between real video and deepdream video
+  - this allows the hardware time to generate deepdream. Think 10s original -> 5s deepdream -> 10s original -> 5s deepdream -> ...
 
-`python 2_dreaming_time.py -i frames -o processed`
+Creative
+- [ ] screen (size, orientation)
+- [ ] way to wrap/cover screen
+- [ ] chair/couch/bench to sit on
+- [ ] brainwave sensor aesthetics (+ wired vs wireless)
+- [ ] group dynamics (how does each individual's brainwave input affect the deepdream?)
 
-different models can be loaded with:
+Stretch goals
+- [ ] do it massively in parallel - speed up processing by MANYx
+- [ ] create a long deepdream video (30-60min)
 
-`python 2_dreaming_time.py -i frames -o processed --model_path ../caffe/models/Places205-CNN/ --model_name Places205.caffemodel --gpu 0`
+## Setup
 
-or
+Install [docker](https://docs.docker.com/installation/).
 
-`python 2_dreaming_time.py -i frames -o processed --model_path ../caffe/models/bvlc_googlenet/ --model_name bvlc_googlenet.caffemodel --gpu 0`
+That's it.
 
-(again eat your heart out, Not a free lunch, but free models are [here](https://github.com/BVLC/caffe/wiki/Model-Zoo))
+## Usage
 
-and sticking to one specific layer:
+`docker pull rosshamish/deepdreamer:latest`
 
-`python 2_dreaming_time.py -i frames -o processed -l inception_4c/output --gpu 0`
+`docker run rosshamish/deepdreamer:latest ./deepdreamer.sh [inputFilename.mp4] [outputFilename.mp4]`
 
-(**don't forget the --gpu 0 flag if you got a gpu to run on**)
-
-Once enough frames are processed (the script will cut the audio to the needed length automatically) or once all frames are done, put the frames + audio back together:
-
-`./3_frames2movie.sh [frames_directory] [original_video_with_sound]`
-
-
-##More information:
-
-This repo implements a deep neural network hallucinating Fear & Loathing in Las Vegas. Visualizing the internals of a deep net we let it develop further what it think it sees.
-
-We're using the #deepdream technique developed by Google, first explained in the Google Research blog post about Neural Network art.
-
-- http://googleresearch.blogspot.nl/2015/06/inceptionism-going-deeper-into-neural.html
-
-Code:
-
-- https://github.com/google/deepdream
-
+Eg `docker run rosshamish/deepdreamer:latest ./deepdreamer.sh short-charlie-brown.mp4 short-charlie-brown-output.mp4`
 
 ## parameters used (and useful to play with):
 
@@ -89,29 +88,8 @@ Code:
 
 - layers locked to moving upwards from inception_4c/output to inception_5b/output (only the output layers, as they are most sensitive to visualizing "objects", where reduce layers are more like "edge detectors") and back again
 
-- every next unprocessed frame in the movie clip is blended with the previous processed frame before being "dreamed" on, moving the alpha from 0.5 to 1 and back again (so 50% previous image net created, 50% the movie frame, to taking 100% of the movie frame only). This takes care of "overfitting" on the frames and makes sure we don't iteratively build more and more "hallucinations" of the net and move away from the original movie clip.
+- [unimplemented](graphific/DeepDreamVideo#25) every next unprocessed frame in the movie clip is blended with the previous processed frame before being "dreamed" on, moving the alpha from 0.5 to 1 and back again (so 50% previous image net created, 50% the movie frame, to taking 100% of the movie frame only). This takes care of "overfitting" on the frames and makes sure we don't iteratively build more and more "hallucinations" of the net and move away from the original movie clip.
 
+## More information
 
-## An investigation of using the MIT Places trained CNN (mainly landscapes):
-
-https://www.youtube.com/watch?v=6IgbMiEaFRY
-
-
-## Installing DeepDream:
-
-- original Google code is relatively straightforward to use: https://github.com/google/deepdream/blob/master/dream.ipynb
-
-- gist for osx: https://gist.github.com/robertsdionne/f58a5fc6e5d1d5d2f798
-
-- docker image: https://registry.hub.docker.com/u/mjibson/deepdream/
-
-- booting preinstalled ami + installing caffe at amazon: https://github.com/graphific/dl-machine
-
-- general overview of convolutinal nets using Caffe: https://github.com/graphific/DL-Meetup-intro/blob/master/PyConSe15-cat-vs-dog.ipynb
-
-- or using lasagne: http://www.slideshare.net/roelofp/python-for-image-understanding-deep-learning-with-convolutional-neural-nets
-
-
-## Credits
-
-Roelof | [KTH](http://www.csc.kth.se/~roelof/) & [Graph Technologies](http://www.graph-technologies.com/) | [@graphific](https://twitter.com/graphific)
+[Graphific's DeepDreamVideo](https://github.com/graphific/DeepDreamVideo) implements a video processing workflow for [google deepdream](https://github.com/google/deepdream), a hallucinating neural network. Find out more about deepdream [here](http://googleresearch.blogspot.nl/2015/06/inceptionism-going-deeper-into-neural.html).
