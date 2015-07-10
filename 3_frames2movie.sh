@@ -1,7 +1,7 @@
 #!/bin/bash
-if [ $# -ne 2 ]; then
+if [ $# -ne 3 ]; then
     echo "please provide the directory of the processed frames"
-    echo "./3_frames2movie.sh [frames_directory] [original_video_with_sound]"
+    echo "./3_frames2movie.sh [frames_directory] [original_video_with_sound] [output_filename.mp4]"
     exit 1
 fi
 
@@ -12,7 +12,7 @@ ffmpeg -i original.mp3 music.wav
 
 secs=$(ffprobe -i tmp.mp4 -show_entries format=duration -v quiet -of csv="p=0")
 ffmpeg -i music.wav -ss 0 -t $secs musicshort.wav
-ffmpeg -i musicshort.wav -i tmp.mp4 -strict -2 $1.mp4
+ffmpeg -i musicshort.wav -i tmp.mp4 -strict -2 $3.mp4
 
 echo 'Removing temp files'
 rm original.mp3
