@@ -1,6 +1,10 @@
 # deepdreamers
 **a collective deepdream**, or, The Over-Ambitious Attempt to Experience Deepdream Film, Created Based on Your Current Mental State, With Other Humans
 
+> **a work in progress** -- this is not functional
+
+> It will eventually use the [rosshamish/docker-deep-dream-video](https://github.com/rosshamish/docker-deep-dream-video) docker image (also a work in progress).
+
 \#deepdream video, watched in a group, where the #deepdream is affected in realtime by participants' mental state (as measured by brain wave sensors).
 
 Video processing based on [graphific/DeepDreamVideo](https://github.com/graphific/DeepDreamVideo). Docker image based on [ryankennedyio/deep-dream-generator](https://github.com/ryankennedyio/deep-dream-generator).
